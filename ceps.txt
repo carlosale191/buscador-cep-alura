@@ -1,0 +1,3 @@
+Endereço: CEP: '89211-400', logradouro: 'Rua Presidente Nilo Peçanha', bairro: 'Floresta', UF: 'SC'}
+Endereço: CEP: '89220-200', logradouro: 'Rua Pavão', bairro: 'Costa e Silva', UF: 'SC'}
+Endereço: CEP: '81910-310', logradouro: 'Rua Júpiter', bairro: 'Sítio Cercado', UF: 'PR'}

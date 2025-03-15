@@ -15,15 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static service.CepRegs.saveFile;
+
 public class CepResearch {
     private final String ADDRESS = "https://viacep.com.br/ws/";
     private final String ADDRESS_END = "/json/";
     private String apiData;
     private String cep = "";
+    private Scanner reader = new Scanner(System.in);
+    private List<ViaCep> listCeps = new ArrayList<>();
+
 
     public void menu() throws IOException, InterruptedException {
-        Scanner reader = new Scanner(System.in);
-        List<ViaCep> listCeps = new ArrayList<>();
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 .setPrettyPrinting()
@@ -31,7 +34,7 @@ public class CepResearch {
 
         while (!cep.equalsIgnoreCase("sair")) {
             System.out.println("Digite o CEP a ser procurado: ");
-            System.out.println("Sair para finalizar");
+            System.out.println("Digite Sair para finalizar");
             cep = reader.nextLine().trim();
 
             if (cep.length() > 8) {
@@ -39,6 +42,7 @@ public class CepResearch {
             }
 
             if (cep.equalsIgnoreCase("sair")){
+                System.out.println("Finalizando...");
                 break;
             }
 
@@ -57,10 +61,16 @@ public class CepResearch {
                 }
                 String json = response.body();
 
-
                 ViaCep myResearchJson = gson.fromJson(json, ViaCep.class);
                 System.out.println(myResearchJson);
                 listCeps.add(myResearchJson);
+
+                // Instância de método estático
+                if (!listCeps.isEmpty()) {
+                    saveFile(listCeps, "ceps.txt");
+                } else {
+                    System.out.println("Não foi possível salvar.");
+                }
 
             } catch (IllegalArgumentException e) {
                 System.out.println("Entrada de CEP inválida.");
